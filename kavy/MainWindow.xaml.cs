@@ -42,9 +42,15 @@ namespace kavy
         private int clientId {get; set;}
         private string nomClient {get; set;}
 
-        public void createClients(object sender, RoutedEventArgs e) {
+        private void Message_txtChange(object sender, TextChangedEventArgs e)
+        {
+            nomClient = SendEventMessage.Text;
+           
+        }
+        public void CreateClients(object sender, RoutedEventArgs e) {
             Clients clients = new Clients();
             clients.create(this.nomClient);
+            SendEventMessage.Clear();
         }
 
         public List<Dictionary<string, object>> findallClients() {
@@ -81,7 +87,7 @@ namespace kavy
 
         public List<Dictionary<string, object>> findallArchives() {
             Archives archives = new Archives();
-            return archives.findall();
+            return archives.Findall();
         }
 
         public Dictionary<string, object> findoneArchives() {

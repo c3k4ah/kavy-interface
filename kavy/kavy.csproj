@@ -79,6 +79,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Backend\abonnements.cs" />
+    <Compile Include="Backend\archives.cs" />
+    <Compile Include="Backend\clients.cs" />
+    <Compile Include="Backend\database.cs" />
+    <Compile Include="Backend\listes.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -118,6 +123,9 @@
     <Resource Include="images\upgrade.png" />
     <Resource Include="images\user.jpg" />
     <Resource Include="images\welcome.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Backend\database.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.8.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.8.0\build\MaterialDesignThemes.targets')" />

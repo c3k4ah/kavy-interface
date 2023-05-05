@@ -1,5 +1,6 @@
 using MySql.Data.MySqlClient;
-
+using System.Collections.Generic;
+using System;
 namespace kavy {
     class Abonnements {
         public Abonnements() {}
@@ -23,7 +24,7 @@ namespace kavy {
             }
         }
 
-        public List<Dictionary<string, object>> findall() {
+        public List<Dictionary<string, object>> Findall() {
             MySqlConnection connection = Database.db_connection();
             string query = "SELECT a.id as id, a.client_id as client_id, c.nom as nom_client," +
                 "a.liste_id as liste_id, l.nom as nom_liste, a.created_at as created_at, a.updated_at as updated_at" +

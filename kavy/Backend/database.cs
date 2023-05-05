@@ -4,10 +4,10 @@ namespace kavy {
     class Database {
         public static MySqlConnection db_connection() {
             string dbHost = "localhost";
-            int dbPort = 3137;
-            string dbUser = "";
+            int dbPort = 3306;
+            string dbUser = "root";
             string dbPassword = "";
-            string dbName = "KAVY";
+            string dbName = "kavy";
 
             return new MySqlConnection($"server={dbHost};port={dbPort};user id={dbUser};password={dbPassword};database={dbName}");
         }

@@ -1,4 +1,6 @@
 using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
 
 namespace kavy {
     class Archives {
@@ -24,7 +26,7 @@ namespace kavy {
             }
         }
 
-        public List<Dictionary<string, object>> findall() {
+        public List<Dictionary<string, object>> Findall() {
             MySqlConnection connection = Database.db_connection();
             string query = "SELECT a.id as id, a.titre as titre, a.description as description," +
                 "a.liste_id as liste_id, l.nom as nom_liste, a.created_at as created_at, a.updated_at as updated_at" +

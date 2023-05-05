@@ -1,5 +1,6 @@
 using MySql.Data.MySqlClient;
-
+using System.Collections.Generic;
+using System;
 namespace kavy {
     class Listes {
         public Listes() {}
