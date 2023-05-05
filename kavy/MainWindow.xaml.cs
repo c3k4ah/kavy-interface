@@ -42,9 +42,15 @@ namespace kavy
         private int clientId {get; set;}
         private string nomClient {get; set;}
 
+        private void Message_txtChange(object sender, TextChangedEventArgs e)
+        {
+            nomClient = SendEventMessage.Text;
+        }
+        
         public void CreateClients(object sender, RoutedEventArgs e) {
             Clients clients = new Clients();
             clients.Create(this.nomClient);
+            SendEventMessage.Clear();
         }
 
         public DataTable FindallClients(object sender, RoutedEventArgs e) {
