@@ -1,18 +1,9 @@
-﻿using System;
+﻿using System.Data;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Media.TextFormatting;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace kavy
 {
@@ -28,6 +19,7 @@ namespace kavy
             InitializeComponent();
             AddTextBlocks();
             textList.ItemsSource = textBlocks;
+            FindallClients();
         }
         private void AddTextBlocks()
         {
@@ -42,6 +34,7 @@ namespace kavy
         private int clientId {get; set;}
         private string nomClient {get; set;}
 
+
         private void Message_txtChange(object sender, TextChangedEventArgs e)
         {
             nomClient = SendEventMessage.Text;
@@ -51,11 +44,13 @@ namespace kavy
             Clients clients = new Clients();
             clients.Create(this.nomClient);
             SendEventMessage.Clear();
+            FindallClients();
         }
 
-        public DataTable FindallClients(object sender, RoutedEventArgs e) {
+        public void FindallClients() {
             Clients clients = new Clients();
-            dataGrid.ItemsSource = clients.Findall();
+            messageList.ItemsSource = clients.Findall();
+            
         }
 
         public Dictionary<string, object> FindoneClients() {

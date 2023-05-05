@@ -1,0 +1,24 @@
+﻿<Window x:Class="kavy.UserWindow"
+        
+        Title="UserWindow" Height="450" Width="800"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:kavy"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+       
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      
+        Background="{x:Null}"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        >
+
+
+    <materialDesign:Card Background="#393646" UniformCornerRadius="15" Margin="25" materialDesign:ShadowAssist.ShadowDepth="Depth4">
+    
+    </materialDesign:Card>
+</Window>

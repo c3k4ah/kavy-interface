@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
-using System;
+
 namespace kavy {
     class Abonnements {
         public Abonnements() {}

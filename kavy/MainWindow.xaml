@@ -97,6 +97,29 @@
                             <materialDesign:ColorZone Padding="10 0 10 0"  Background="Transparent">
                                 <StackPanel>
                                     <DockPanel Background="Transparent" Height="240">
+                                        <materialDesign:ColorZone Background="Transparent">
+                                            <ListView x:Name="messageList" Margin="10">
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <materialDesign:ColorZone 
+                                                            Background="#BA68C8" 
+                                                            HorizontalAlignment="Stretch" 
+                                                            Padding="10"
+                                                            Width="350" 
+                                                            CornerRadius="10">
+                                                            <StackPanel >
+                                                                <TextBlock Text="{Binding Nom}" Foreground="White" FontWeight="Bold" />
+                                                                
+                                                                <TextBlock Text="{Binding CreatedAt}" />
+                                                            </StackPanel>
+                                                            </materialDesign:ColorZone>
+                                                        
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
+                                        </materialDesign:ColorZone>
+
+
                                     </DockPanel>
 
 
@@ -109,7 +132,7 @@
                                             
                                             <TextBox Grid.Column="0" x:Name="SendEventMessage" TextChanged="Message_txtChange"  Margin="20 5 5 5"/>
                                             <Button Grid.Column="1" x:Name="SendEvent" Click="CreateClients" Style="{StaticResource MaterialDesignIconButton}" Height="40" Width="40" materialDesign:ButtonAssist.CornerRadius="6" DockPanel.Dock="Right">
-                                                <materialDesign:PackIcon Kind="Send" Foreground="Purple"/>
+                                                <materialDesign:PackIcon Kind="Send" Foreground="#BA68C8"/>
                                             </Button>
                                            
                                         </Grid>

@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
-using System;
+
+using kavy.Backend.Models;
+using System.Windows.Media;
+
 namespace kavy {
     class Clients {
         public Clients() {}
@@ -53,15 +55,28 @@ namespace kavy {
         //     return results;
         // }
 
-        public DataTable Findall() {
+        public List<MessageModel> Findall() {
             MySqlConnection connection = Database.Db_connection();
             string query = "SELECT * FROM clients";
-            DataTable dataTable = new DataTable();
+            List<MessageModel> messages = new List<MessageModel>();
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
                 MySqlDataReader reader = command.ExecuteReader();
-                dataTable.Load(reader);
+               
+                // Boucle pour parcourir les résultats de la requête et ajouter des objets Message à la liste
+                while (reader.Read())
+                {
+                    var message = new MessageModel
+                    {
+                        Nom = reader.GetString("nom"),
+                        CreatedAt = reader.GetDateTime("created_at"),
+                       
+                    };
+
+                    messages.Add(message);
+                }
+            
             }
             catch(Exception e) {
                 Console.WriteLine("Erreur, connexion à la base de données !\n" + e.Message);
@@ -69,7 +84,7 @@ namespace kavy {
             finally {
                 connection.Close();
             }
-            return dataTable.DefaultView;
+            return messages;
         }
 
         public Dictionary<string, object> Findone(int client_id) {
