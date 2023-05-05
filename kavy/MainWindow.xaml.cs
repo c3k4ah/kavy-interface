@@ -20,7 +20,7 @@ namespace kavy
             AddTextBlocks();
             textList.ItemsSource = textBlocks;
             FindallClients();
-            FindallArchives();
+            FindByListeIdArchives();
             FindallListes();
             FindallAbonnments();
         }
@@ -39,10 +39,7 @@ namespace kavy
         private string passwordClient {get; set;}
 
 
-        private void Message_txtChange(object sender, TextChangedEventArgs e)
-        {
-            nomClient = SendEventMessage.Text;
-        }
+
         private void NavigateToLoginPage(object sender, RoutedEventArgs e)
         {
             // Création de la nouvelle fenêtre
@@ -96,10 +93,19 @@ namespace kavy
         private int adminIdAdmin {get; set;}
         private string searchArchive {get; set;}
 
+
+        private void Message_txtChange(object sender, TextChangedEventArgs e)
+        {
+            nomClient = SendEventMessage.Text;
+            listeIdArchive = 1;
+            adminIdAdmin = 1;
+        }
         public void CreateArchives(object sender, RoutedEventArgs e) {
+
             Archives archives = new Archives();
             archives.Create(this.contentArchive, this.listeIdArchive, this.adminIdAdmin);
-            this.FindallArchives();
+            this.FindByListeIdArchives();
+            SendEventMessage.Clear();
         }
 
         public void FindallArchives() {
@@ -113,13 +119,16 @@ namespace kavy
         }
 
         public void FindByListeIdArchives() {
+            listeIdArchive = 1;
+            adminIdAdmin = 1;
             Archives archives = new Archives();
-            archives.FindByListeId(this.listeIdArchive);
+            messageList.ItemsSource = archives.FindByListeId(this.listeIdArchive);
         }
 
         public void FindByClientIdArchives() {
+
             Archives archives = new Archives();
-            archives.FindByClientId(this.clientId);
+             archives.FindByClientId(this.clientId);
         }
 
         public void FiltreArchives() {

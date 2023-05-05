@@ -104,7 +104,6 @@
     <Compile Include="Backend\clients.cs" />
     <Compile Include="Backend\database.cs" />
     <Compile Include="Backend\listes.cs" />
-    <Compile Include="Backend\Models\message_model.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

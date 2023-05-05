@@ -29,7 +29,7 @@ namespace kavy {
             MySqlConnection connection = Database.Db_connection();
             string query = "SELECT id, nom, created_at FROM admin";
             if(adminId > 0) query += " WHERE id = @AdminId";
-            List<ClientModel> results = new List<ClientModel>();
+            List<AdminModel> results = new List<AdminModel>();
 
             try {
                 connection.Open();
@@ -38,8 +38,9 @@ namespace kavy {
                 MySqlDataReader reader = command.ExecuteReader();
 
                 while(reader.Read()) {
-                    var data = new ClientModel {
-                        id = reader.GetString("id"),
+                    var data = new AdminModel
+                    {
+                        id = reader.GetInt16("id"),
                         nom = reader.GetString("nom"),
                         createdAt = reader.GetDateTime("created_at")
                     };

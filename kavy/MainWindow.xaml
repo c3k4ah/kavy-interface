@@ -108,9 +108,10 @@
                                                             Width="350" 
                                                             CornerRadius="10">
                                                             <StackPanel >
-                                                                <TextBlock Text="{Binding Nom}" Foreground="White" FontWeight="Bold" />
+                                                                <TextBlock Text="{Binding content}" Foreground="White" FontWeight="Bold" />
                                                                 
-                                                                <TextBlock Text="{Binding CreatedAt}" />
+                                                                <TextBlock Text="{Binding createdAt}" />
+                                                                <TextBlock Text="{Binding nomAdmin}" />
                                                             </StackPanel>
                                                             </materialDesign:ColorZone>
                                                         
