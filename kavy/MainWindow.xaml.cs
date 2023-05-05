@@ -9,15 +9,18 @@ namespace kavy
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    
     public partial class MainWindow : Window
     {
 
         private List<TextBlock> textBlocks = new List<TextBlock>();
+
         public MainWindow()
         {
             InitializeComponent();
             AddTextBlocks();
             textList.ItemsSource = textBlocks;
+           
             updateAllData();
 
         }
@@ -28,6 +31,10 @@ namespace kavy
             FindByListeIdArchives();
             FindallListes();
             FindallAbonnments();
+        }
+        private void UpdateArchive()
+        {
+
         }
         private void AddTextBlocks()
         {
@@ -95,7 +102,8 @@ namespace kavy
         private int archiveId {get; set;}
         private string contentArchive {get; set;}
         private int listeIdArchive {get; set;}
-        private int adminIdArchive = cache.Get("adminId") as int;
+       
+        private int adminIdArchive { get; set; }
         private string searchArchive {get; set;}
 
 
@@ -123,6 +131,8 @@ namespace kavy
 
         public void FindByListeIdArchives() {
             listeIdArchive = 1;
+            MemoryCache cache = MemoryCache.Default;
+            this.adminIdArchive = int.Parse(cache.Get("adminId") as string ?? "1");
             Archives archives = new Archives();
             messageList.ItemsSource = archives.FindByListeId(this.listeIdArchive);
         }
@@ -199,7 +209,7 @@ namespace kavy
         }
 
         // ************** ADMIN *************
-        private int adminId = cache.Get("adminId") as int;
+        private int adminId { get; set; }
         private string nomAdmin {get; set;}
         private string passwordAdmin {get; set;}
 
@@ -215,7 +225,10 @@ namespace kavy
         }
 
         public void FindoneAdmin() {
+
             Admin admin = new Admin();
+            MemoryCache cache = MemoryCache.Default;
+            this.adminId = int.Parse(cache.Get("adminId") as string ?? "1");
             admin.Find(this.adminId);
         }
 

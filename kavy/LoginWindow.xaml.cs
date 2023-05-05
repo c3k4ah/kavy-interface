@@ -27,8 +27,8 @@ namespace kavy
                     MemoryCache cache = MemoryCache.Default;
                     cache.Add("adminId", $"{response}", DateTimeOffset.Now.AddMinutes(30));
 
-                    var loginPage = new MainWindow();
-                    loginPage.Show();
+                    var adminPage = new MainWindow();
+                    adminPage.Show();
                     this.Close();
                 }
                 else Console.WriteLine("Incorrect !");
@@ -40,21 +40,13 @@ namespace kavy
                     MemoryCache cache = MemoryCache.Default;
                     cache.Add("clientId", $"{response}", DateTimeOffset.Now.AddMinutes(30));
 
-                    var loginPage = new UserPage();
-                    loginPage.Show();
+                    var userPage = new UserWindow();
+                    userPage.Show();
                     this.Close();
                 }
                 else Console.WriteLine("Incorrect !");
             }
         }
-        private void saveCache()
-        {
-            // Création d'un objet MemoryCache
-            MemoryCache cache = MemoryCache.Default;
-
-            // Ajout d'une clé-valeur dans le cache avec une durée de vie de 10 minutes
-            cache.Add("adminId", "value", DateTimeOffset.Now.AddMinutes(30));
-
-        }
+      
     }
 }
