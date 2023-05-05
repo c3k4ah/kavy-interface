@@ -42,76 +42,76 @@ namespace kavy
         private int clientId {get; set;}
         private string nomClient {get; set;}
 
-        public void createClients(object sender, RoutedEventArgs e) {
+        public void CreateClients(object sender, RoutedEventArgs e) {
             Clients clients = new Clients();
-            clients.create(this.nomClient);
+            clients.Create(this.nomClient);
         }
 
-        public List<Dictionary<string, object>> findallClients() {
+        public DataTable FindallClients(object sender, RoutedEventArgs e) {
             Clients clients = new Clients();
-            return clients.findall();
+            dataGrid.ItemsSource = clients.Findall();
         }
 
-        public Dictionary<string, object> findoneClients() {
+        public Dictionary<string, object> FindoneClients() {
             Clients clients = new Clients();
-            return clients.findone(this.clientId);
+            return clients.Findone(this.clientId);
         }
 
-        public void updateClients(object sender, RoutedEventArgs e) {
+        public void UpdateClients(object sender, RoutedEventArgs e) {
             Clients clients = new Clients();
-            clients.update(this.nomClient, this.clientId);
+            clients.Update(this.nomClient, this.clientId);
         }
 
-        public void deleteClients(object sender, RoutedEventArgs e) {
+        public void DeleteClients(object sender, RoutedEventArgs e) {
             Clients clients = new Clients();
-            clients.delete(this.clientId);
+            clients.Delete(this.clientId);
         }
 
-        // ********** archives **********
+        // ******************** archives ********************
         private int archiveId {get; set;}
         private string titreArchive {get; set;}
         private string descriptionArchive {get; set;}
         private int listeIdArchive {get; set;}
         private string searchArchive {get; set;}
 
-        public void createArchives(object sender, RoutedEventArgs e) {
+        public void CreateArchives(object sender, RoutedEventArgs e) {
             Archives archives = new Archives();
-            archives.create(this.titreArchive, this.descriptionArchive, this.listeIdArchive);
+            archives.Create(this.titreArchive, this.descriptionArchive, this.listeIdArchive);
         }
 
-        public List<Dictionary<string, object>> findallArchives() {
+        public List<Dictionary<string, object>> FindallArchives() {
             Archives archives = new Archives();
-            return archives.findall();
+            return archives.Findall();
         }
 
-        public Dictionary<string, object> findoneArchives() {
+        public Dictionary<string, object> FindoneArchives() {
             Archives archives = new Archives();
-            return archives.findone(this.archiveId);
+            return archives.Findone(this.archiveId);
         }
 
-        public List<Dictionary<string, object>> findByListeIdArchives() {
+        public List<Dictionary<string, object>> FindByListeIdArchives() {
             Archives archives = new Archives();
-            return archives.findByListeId(this.listeIdArchive);
+            return archives.FindByListeId(this.listeIdArchive);
         }
 
-        public List<Dictionary<string, object>> findByClientIdArchives() {
+        public List<Dictionary<string, object>> FindByClientIdArchives() {
             Archives archives = new Archives();
-            return archives.findByClientId(this.clientId);
+            return archives.FindByClientId(this.clientId);
         }
 
-        public List<Dictionary<string, object>> filtreArchives() {
+        public List<Dictionary<string, object>> FiltreArchives() {
             Archives archives = new Archives();
-            return archives.filtre(this.searchArchive);
+            return archives.Filtre(this.searchArchive);
         }
 
-        public void updateArchives(object sender, RoutedEventArgs e) {
+        public void UpdateArchives(object sender, RoutedEventArgs e) {
             Archives archives = new Archives();
-            archives.update(this.titreArchive, this.descriptionArchive, this.archiveId);
+            archives.Update(this.titreArchive, this.descriptionArchive, this.archiveId);
         }
 
-        public void deleteArchives(object sender, RoutedEventArgs e) {
+        public void DeleteArchives(object sender, RoutedEventArgs e) {
             Archives archives = new Archives();
-            archives.delete(this.archiveId);
+            archives.Delete(this.archiveId);
         }
         // ***********************************
     }

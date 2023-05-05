@@ -1,17 +1,20 @@
+using System;
+using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 
 namespace kavy {
-    class Listes {
-        public Listes() {}
+    class Abonnements {
+        public Abonnements() {}
 
-        public void create(string nom) {
-            MySqlConnection connection = Database.db_connection();
-            string query = "INSERT INTO listes(nom) VALUES(@Nom)";
+        public void Create(int client_id, int liste_id) {
+            MySqlConnection connection = Database.Db_connection();
+            string query = "INSERT INTO abonnements(client_id, liste_id) VALUES(@ClientId, @ListeId)";
 
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Nom", nom);
+                command.Parameters.AddWithValue("@ClientId", client_id);
+                command.Parameters.AddWithValue("@ListeId", liste_id);
                 command.ExecuteNonQuery();
             }
             catch(Exception e) {
@@ -22,10 +25,15 @@ namespace kavy {
             }
         }
 
-        public List<Dictionary<string, object>> findall() {
-            MySqlConnection connection = Database.db_connection();
-            string query = "SELECT * FROM listes";
+        public List<Dictionary<string, object>> Findall() {
+            MySqlConnection connection = Database.Db_connection();
+            string query = "SELECT a.id as id, a.client_id as client_id, c.nom as nom_client," +
+                "a.liste_id as liste_id, l.nom as nom_liste, a.created_at as created_at, a.updated_at as updated_at" +
+                "FROM abonnements a" +
+                "JOIN listes l ON a.liste_id = l.id" +
+                "JOIN clients c ON a.client_id = c.id";
             List<Dictionary<string, object>> results = new List<Dictionary<string, object>>();
+
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
@@ -49,15 +57,14 @@ namespace kavy {
             return results;
         }
 
-        public void update(int liste_id, string nom) {
-            MySqlConnection connection = Database.db_connection();
-            string query = "UPDATE listes SET nom = @Nom WHERE id = @ListeId";
+        public void Update(int abonnement_id) {
+            MySqlConnection connection = Database.Db_connection();
+            string query = "UPDATE abonnements SET liste_id = @ListeId WHERE id = @AbonnementId";
 
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ListeId", liste_id);
-                command.Parameters.AddWithValue("@Nom", nom);
+                command.Parameters.AddWithValue("@AbonnementId", abonnement_id);
                 command.ExecuteNonQuery();
             }
             catch(Exception e) {
@@ -68,14 +75,14 @@ namespace kavy {
             }
         }
 
-        public void delete(int liste_id) {
-            MySqlConnection connection = Database.db_connection();
-            string query = "DELETE FROM listes WHERE id = @ListeId";
+        public void Delete(int abonnement_id) {
+            MySqlConnection connection = Database.Db_connection();
+            string query = "DELETE FROM abonnements WHERE id = @AbonnementId";
 
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ListeId", liste_id);
+                command.Parameters.AddWithValue("@AbonnementId", abonnement_id);
                 command.ExecuteNonQuery();
             }
             catch(Exception e) {
