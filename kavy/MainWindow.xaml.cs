@@ -19,6 +19,12 @@ namespace kavy
             InitializeComponent();
             AddTextBlocks();
             textList.ItemsSource = textBlocks;
+            updateAllData();
+
+        }
+
+        private void updateAllData()
+        {
             FindallClients();
             FindByListeIdArchives();
             FindallListes();
@@ -160,7 +166,7 @@ namespace kavy
 
         public void FindallListes() {
             Listes listes = new Listes();
-            listes.Find();
+            eventListe.ItemsSource = listes.Find();
         }
 
         public void FindoneListes() {
