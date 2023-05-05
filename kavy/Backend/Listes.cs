@@ -27,7 +27,7 @@ namespace kavy {
 
         public List<ListeModel> Find(int listeId = 0) {
             MySqlConnection connection = Database.Db_connection();
-            string query = "SELECT nom FROM listes";
+            string query = "SELECT id, nom FROM listes";
             if(listeId > 0) query += " WHERE id = @ListeId";
             List<ListeModel> results = new List<ListeModel>();
 
