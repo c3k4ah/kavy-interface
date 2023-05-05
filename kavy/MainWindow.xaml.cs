@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.TextFormatting;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
@@ -20,6 +21,20 @@ namespace kavy
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow() => InitializeComponent();
+
+        private List<TextBlock> textBlocks = new List<TextBlock>();
+        public MainWindow()
+        {
+            InitializeComponent();
+            AddTextBlocks();
+            textList.ItemsSource = textBlocks;
+        }
+        private void AddTextBlocks()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                textBlocks.Add(new TextBlock { Text = $"TextBlock {i + 1}" });
+            }
+        }
     }
 }

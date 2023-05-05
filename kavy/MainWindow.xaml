@@ -65,17 +65,24 @@
                                 <TextBlock Text="List des utilisateurs" FontSize="12" FontWeight="bold" Foreground="#393646" />
 
                             </materialDesign:ColorZone>
-                            <materialDesign:ColorZone Padding="20 0 20 20"  Background="#6D5D6E">
-                                <StackPanel>
-                                    <DockPanel Margin="0 15 0 0" LastChildFill = "True">
-                                        <Image RenderOptions.BitmapScalingMode="HighQuality" Source="images/avatar.png" Height="30" Width="30" HorizontalAlignment="Left" />
-                                        <TextBlock Foreground="White" FontSize="11" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center">Dominick Randriamanantena Gregoire</TextBlock>
+                            
+                                <Grid>
+                                
+                                <ItemsControl x:Name="textList">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <Grid/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Text}" Margin="5"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                            
 
-                                    </DockPanel>
-                                    <Separator Background="WhiteSmoke" Margin="0 5 0 0"/>
-
-                                </StackPanel>
-                            </materialDesign:ColorZone>
 
 
                         </StackPanel>
@@ -87,19 +94,27 @@
                                     <TextBlock Text="Why Not Linux" FontSize="15" FontWeight="bold"/>
                                 </DockPanel>
                             </materialDesign:ColorZone>
-                            <materialDesign:ColorZone Padding="20 0 20 20"  Background="#6D5D6E">
+                            <materialDesign:ColorZone Padding="10 0 10 0"  Background="Transparent">
                                 <StackPanel>
-
-
-
-                                    <DockPanel Background="Transparent" Height="220">
+                                    <DockPanel Background="Transparent" Height="240">
                                     </DockPanel>
 
 
-                                    <materialDesign:ColorZone Background="#F4EEE0" Height="60"  CornerRadius="25" Padding="20">
-
+                                    <materialDesign:ColorZone Background="#F4EEE0" Height="50"  CornerRadius="20" >
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition  Width="*"/>
+                                                <ColumnDefinition Width="50"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <TextBox Grid.Column="0" Name="SendEventMessage"  Text="Envoyer un message ..." Margin="20 5 5 5"/>
+                                            <Button Grid.Column="1" Style="{StaticResource MaterialDesignIconButton}" Height="40" Width="40" materialDesign:ButtonAssist.CornerRadius="6" DockPanel.Dock="Right">
+                                                <materialDesign:PackIcon Kind="Send" Foreground="Purple"/>
+                                            </Button>
+                                           
+                                        </Grid>
+                                        
                                     </materialDesign:ColorZone>
-
 
                                 </StackPanel>
                             </materialDesign:ColorZone>
