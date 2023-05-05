@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Data;
 using System.Collections.Generic;
+using System.Runtime.Caching;
 using System.Windows;
 using System.Windows.Controls;
-
 
 namespace kavy
 {
@@ -56,8 +55,8 @@ namespace kavy
 
             // Fermeture de la fenêtre actuelle
             this.Close();
-
         }
+        
         public void CreateClients(object sender, RoutedEventArgs e) {
             Clients clients = new Clients();
             clients.Create(this.nomClient);
@@ -96,7 +95,7 @@ namespace kavy
         private int archiveId {get; set;}
         private string contentArchive {get; set;}
         private int listeIdArchive {get; set;}
-        private int adminIdAdmin {get; set;}
+        private int adminIdArchive = cache.Get("adminId") as int;
         private string searchArchive {get; set;}
 
 
@@ -104,12 +103,10 @@ namespace kavy
         {
             nomClient = SendEventMessage.Text;
             listeIdArchive = 1;
-            adminIdAdmin = 1;
         }
         public void CreateArchives(object sender, RoutedEventArgs e) {
-
             Archives archives = new Archives();
-            archives.Create(this.contentArchive, this.listeIdArchive, this.adminIdAdmin);
+            archives.Create(this.contentArchive, this.listeIdArchive, this.adminIdArchive);
             this.FindByListeIdArchives();
             SendEventMessage.Clear();
         }
@@ -126,7 +123,6 @@ namespace kavy
 
         public void FindByListeIdArchives() {
             listeIdArchive = 1;
-            adminIdAdmin = 1;
             Archives archives = new Archives();
             messageList.ItemsSource = archives.FindByListeId(this.listeIdArchive);
         }
@@ -145,13 +141,13 @@ namespace kavy
         public void UpdateArchives(object sender, RoutedEventArgs e) {
             Archives archives = new Archives();
             archives.Update(this.contentArchive, this.archiveId);
-            this.FindallArchives();
+            this.FindByListeIdArchives();
         }
 
         public void DeleteArchives(object sender, RoutedEventArgs e) {
             Archives archives = new Archives();
             archives.Delete(this.archiveId);
-            this.FindallArchives();
+            this.FindByListeIdArchives();
         }
 
         // ************** LISTES **************
@@ -179,7 +175,7 @@ namespace kavy
         private int listeIdAbonnement {get; set;}
         private int clientIdAbonnement {get; set;}
 
-        public void createAbonnements() {
+        public void createAbonnements(object sender, TextChangedEventArgs e) {
             Abonnements abonnements = new Abonnements();
             abonnements.Create(this.clientIdAbonnement, this.listeIdAbonnement);
             this.FindallAbonnments();
@@ -190,7 +186,7 @@ namespace kavy
             abonnements.Find();
         }
 
-        public void UpdateAbonnements() {
+        public void UpdateAbonnements(object sender, TextChangedEventArgs e) {
             Abonnements abonnements = new Abonnements();
             abonnements.Update(this.listeIdAbonnement, this.abonnementId);
             this.FindallAbonnments();
@@ -203,11 +199,11 @@ namespace kavy
         }
 
         // ************** ADMIN *************
-        private int adminId {get; set;}
+        private int adminId = cache.Get("adminId") as int;
         private string nomAdmin {get; set;}
         private string passwordAdmin {get; set;}
 
-        public void createAdmin() {
+        public void createAdmin(object sender, TextChangedEventArgs e) {
             Admin admin = new Admin();
             admin.Create(this.nomAdmin);
             this.FindallAdmin();
@@ -223,46 +219,22 @@ namespace kavy
             admin.Find(this.adminId);
         }
 
-        public void UpdateAdmin() {
+        public void UpdateAdmin(object sender, TextChangedEventArgs e) {
             Admin admin = new Admin();
             admin.Update(this.nomAdmin, this.adminId);
             this.FindallAdmin();
         }
 
-        public void UpdatePasswordAdmin() {
+        public void UpdatePasswordAdmin(object sender, TextChangedEventArgs e) {
             Admin admin = new Admin();
             admin.UpdatePassword(this.passwordAdmin, this.adminId);
             this.FindallAdmin();
         }
 
-        public void DeleteAdmin() {
+        public void DeleteAdmin(object sender, TextChangedEventArgs e) {
             Admin admin = new Admin();
             admin.Delete(this.adminId);
             this.FindallAdmin();
-        }
-
-        // **************** AUTH **************
-        private string nomAuth;
-        private string passwordAuth;
-
-        public void AuthAdmin() {
-            Auth auth = new Auth();
-            int response = auth.Admin(this.nomAuth, this.passwordAuth);
-            if(response > 0){
-                Console.WriteLine("Correct !");
-                this.adminId = response;
-            }
-            else Console.WriteLine("Incorrect !");
-        }
-
-        public void AuthClient() {
-            Auth auth = new Auth();
-            int response = auth.Client(this.nomAuth, this.passwordAuth);
-            if(response > 0){
-                Console.WriteLine("Correct !");
-                this.clientId = response;
-            }
-            else Console.WriteLine("Incorrect !");
         }
     }
 }

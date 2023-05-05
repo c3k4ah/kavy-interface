@@ -38,8 +38,7 @@ namespace kavy {
                 MySqlDataReader reader = command.ExecuteReader();
 
                 while(reader.Read()) {
-                    var data = new AdminModel
-                    {
+                    var data = new AdminModel {
                         id = reader.GetInt16("id"),
                         nom = reader.GetString("nom"),
                         createdAt = reader.GetDateTime("created_at")
