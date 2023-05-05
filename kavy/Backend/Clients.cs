@@ -28,7 +28,7 @@ namespace kavy {
         public List<ClientModel> Find(int clientId = 0) {
             MySqlConnection connection = Database.Db_connection();
             string query = "SELECT nom, created_at FROM clients";
-            if(clientId > 0) query += " WHERE id = @clientId";
+            if(clientId > 0) query += " WHERE id = @ClientId";
             List<ClientModel> results = new List<ClientModel>();
 
             try {
