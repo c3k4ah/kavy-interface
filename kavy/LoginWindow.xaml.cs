@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using System.Runtime.Caching;
+
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
 
 namespace kavy
 {
@@ -23,5 +16,17 @@ namespace kavy
         {
             InitializeComponent();
         }
+
+        private void saveCache()
+        {
+            // Création d'un objet MemoryCache
+            MemoryCache cache = MemoryCache.Default;
+
+            // Ajout d'une clé-valeur dans le cache avec une durée de vie de 10 minutes
+            cache.Add("key", "value", DateTimeOffset.Now.AddMinutes(10));
+
+        }
+
+
     }
 }
