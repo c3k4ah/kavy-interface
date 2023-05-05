@@ -4,7 +4,6 @@ using System.Runtime.Caching;
 using System.Windows;
 using System.Windows.Controls;
 
-
 namespace kavy
 {
     /// <summary>
@@ -170,7 +169,7 @@ namespace kavy
         private int listeIdAbonnement {get; set;}
         private int clientIdAbonnement {get; set;}
 
-        public void createAbonnements() {
+        public void createAbonnements(object sender, TextChangedEventArgs e) {
             Abonnements abonnements = new Abonnements();
             abonnements.Create(this.clientIdAbonnement, this.listeIdAbonnement);
             this.FindallAbonnments();
@@ -181,7 +180,7 @@ namespace kavy
             abonnements.Find();
         }
 
-        public void UpdateAbonnements() {
+        public void UpdateAbonnements(object sender, TextChangedEventArgs e) {
             Abonnements abonnements = new Abonnements();
             abonnements.Update(this.listeIdAbonnement, this.abonnementId);
             this.FindallAbonnments();
@@ -198,7 +197,7 @@ namespace kavy
         private string nomAdmin {get; set;}
         private string passwordAdmin {get; set;}
 
-        public void createAdmin() {
+        public void createAdmin(object sender, TextChangedEventArgs e) {
             Admin admin = new Admin();
             admin.Create(this.nomAdmin);
             this.FindallAdmin();
@@ -214,19 +213,19 @@ namespace kavy
             admin.Find(this.adminId);
         }
 
-        public void UpdateAdmin() {
+        public void UpdateAdmin(object sender, TextChangedEventArgs e) {
             Admin admin = new Admin();
             admin.Update(this.nomAdmin, this.adminId);
             this.FindallAdmin();
         }
 
-        public void UpdatePasswordAdmin() {
+        public void UpdatePasswordAdmin(object sender, TextChangedEventArgs e) {
             Admin admin = new Admin();
             admin.UpdatePassword(this.passwordAdmin, this.adminId);
             this.FindallAdmin();
         }
 
-        public void DeleteAdmin() {
+        public void DeleteAdmin(object sender, TextChangedEventArgs e) {
             Admin admin = new Admin();
             admin.Delete(this.adminId);
             this.FindallAdmin();
