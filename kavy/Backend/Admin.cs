@@ -4,12 +4,12 @@ using MySql.Data.MySqlClient;
 using kavy.Backend.Models;
 
 namespace kavy {
-    class Listes {
-        public Listes() {}
+    class Admin {
+        public Admin() {}
 
         public void Create(string nom) {
             MySqlConnection connection = Database.Db_connection();
-            string query = "INSERT INTO listes(nom) VALUES(@Nom)";
+            string query = "INSERT INTO admin(nom, password) VALUES(@Nom, SHA2('kavyAdmin', 256))";
 
             try {
                 connection.Open();
@@ -25,22 +25,23 @@ namespace kavy {
             }
         }
 
-        public List<ListeModel> Find(int listeId = 0) {
+        public List<AdminModel> Find(int adminId = 0) {
             MySqlConnection connection = Database.Db_connection();
-            string query = "SELECT nom FROM listes";
-            if(listeId > 0) query += " WHERE id = @ListeId";
-            List<ListeModel> results = new List<ListeModel>();
+            string query = "SELECT id, nom, created_at FROM admin";
+            if(adminId > 0) query += " WHERE id = @AdminId";
+            List<ClientModel> results = new List<ClientModel>();
 
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
-                if(listeId > 0) command.Parameters.AddWithValue("@ListeId", listeId);
+                if(adminId > 0) command.Parameters.AddWithValue("@AdminId", adminId);
                 MySqlDataReader reader = command.ExecuteReader();
 
                 while(reader.Read()) {
-                    var data = new ListeModel {
+                    var data = new ClientModel {
                         id = reader.GetString("id"),
-                        nom = reader.GetString("nom")
+                        nom = reader.GetString("nom"),
+                        createdAt = reader.GetDateTime("created_at")
                     };
                     results.Add(data);
                 }
@@ -56,15 +57,15 @@ namespace kavy {
             return results;
         }
 
-        public void Update(string nom, int listeId) {
+        public void Update(string nom, int adminId) {
             MySqlConnection connection = Database.Db_connection();
-            string query = "UPDATE listes SET nom = @Nom WHERE id = @ListeId";
+            string query = "UPDATE admin SET nom = @Nom WHERE id = @AdminId";
 
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ListeId", listeId);
                 command.Parameters.AddWithValue("@Nom", nom);
+                command.Parameters.AddWithValue("@AdminId", adminId);
                 command.ExecuteNonQuery();
             }
             catch(Exception e) {
@@ -75,14 +76,33 @@ namespace kavy {
             }
         }
 
-        public void Delete(int listeId) {
+        public void UpdatePassword(string password, int adminId) {
             MySqlConnection connection = Database.Db_connection();
-            string query = "DELETE FROM listes WHERE id = @ListeId";
+            string query = "UPDATE admin SET password = SHA2(@Password, 256) WHERE id = @AdminId";
 
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ListeId", listeId);
+                command.Parameters.AddWithValue("@Password", password);
+                command.Parameters.AddWithValue("@AdminId", adminId);
+                command.ExecuteNonQuery();
+            }
+            catch(Exception e) {
+                Console.WriteLine("Erreur, connexion à la base de données !\n" + e.Message);
+            }
+            finally {
+                connection.Close();
+            }
+        }
+
+        public void Delete(int adminId) {
+            MySqlConnection connection = Database.Db_connection();
+            string query = "DELETE FROM admin WHERE id = @AdminId";
+
+            try {
+                connection.Open();
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@AdminId", adminId);
                 command.ExecuteNonQuery();
             }
             catch(Exception e) {

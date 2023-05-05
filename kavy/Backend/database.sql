@@ -41,9 +41,12 @@ CREATE TABLE IF NOT EXISTS abonnements(
 CREATE TABLE IF NOT EXISTS archives(
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     content TEXT,
-    liste_id INT NOT NULL,
+    liste_id INT(11) NOT NULL,
+    admin_id INT(11) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT NULL,
     CONSTRAINT fk_liste_id_archives FOREIGN KEY(liste_id)
-        REFERENCES listes(id)
+        REFERENCES listes(id),
+    CONSTRAINT fk_admin_id_archives FOREIGN KEY(admin_id)
+        REFERENCES admin(id)
 );

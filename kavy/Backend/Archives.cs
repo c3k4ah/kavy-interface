@@ -1,22 +1,22 @@
 using System;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
-
+using kavy.Backend.Models;
 
 namespace kavy {
     class Archives {
         public Archives() {}
 
-        public void Create(string titre, string description, int liste_id) {
+        public void Create(string content, int listeId, int adminId) {
             MySqlConnection connection = Database.Db_connection();
-            string query = "INSERT INTO archives(titre, description, liste_id) VALUES(@Titre, @Description, @ListeId)";
+            string query = "INSERT INTO archives(content, liste_id, admin_id) VALUES(@Content, @ListeId, @AdminId)";
 
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Titre", titre);
-                command.Parameters.AddWithValue("@Description", description);
-                command.Parameters.AddWithValue("@ListeId", liste_id);
+                command.Parameters.AddWithValue("@Content", titre);
+                command.Parameters.AddWithValue("@ListeId", listeId);
+                command.Parameters.AddWithValue("@AdminId", adminId);
                 command.ExecuteNonQuery();
             }
             catch(Exception e) {
@@ -27,23 +27,33 @@ namespace kavy {
             }
         }
 
-        public List<Dictionary<string, object>> Findall() {
+        public List<ArchiveModel> Find(int archiveId = 0) {
             MySqlConnection connection = Database.Db_connection();
-            string query = "SELECT a.id as id, a.titre as titre, a.description as description," +
-                "a.liste_id as liste_id, l.nom as nom_liste, a.created_at as created_at, a.updated_at as updated_at" +
-                "FROM archives a JOIN listes l ON a.liste_id = l.id";
-            List<Dictionary<string, object>> results = new List<Dictionary<string, object>>();
+            string query = "SELECT a.id as id, a.content as content, a.liste_id as liste_id, l.nom as nom_liste, " +
+                "a.admin_id as admin_id, ad.nom as nom_admin, a.created_at as created_at " +
+                "FROM archives a " +
+                "JOIN listes l ON a.liste_id = l.id " + 
+                "JOIN admin ad ON a.admin_id = ad.id";
+            if(archiveId > 0) query += " WHERE id = @ArchiveId";
+            List<ArchiveModel> results = new List<ArchiveModel>();
 
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
+                if(archiveId > 0) command.Parameters.AddWithValue("@ArchiveId", archiveId);
                 MySqlDataReader reader = command.ExecuteReader();
+
                 while(reader.Read()) {
-                    Dictionary<string, object> row = new Dictionary<string, object>();
-                    for(int i = 0; i < reader.FieldCount; i++) {
-                        row.Add(reader.GetName(i), reader.GetValue(i));
-                    }
-                    results.Add(row);
+                    var data = new ArchiveModel {
+                        id = reader.GetString("id"),
+                        content = reader.GetString("content"),
+                        listeId = reader.GetString("liste_id"),
+                        nomListe = reader.GetString("nom_liste"),
+                        adminId = reader.GetString("admin_id"),
+                        nomAdmin = reader.GetString("nom_admin"),
+                        createdAt = reader.GetDateTime("created_at")
+                    };
+                    results.Add(data);
                 }
                 reader.Close();
             }
@@ -57,56 +67,33 @@ namespace kavy {
             return results;
         }
 
-        public Dictionary<string, object> Findone(int archive_id) {
+        public List<ArchiveModel> FindByListeId(int listeId) {
             MySqlConnection connection = Database.Db_connection();
-            string query = "SELECT a.id as id, a.titre as titre, a.description as description," +
-                "a.liste_id as liste_id, l.nom as nom_liste, a.created_at as created_at, a.updated_at as updated_at" +
-                "FROM archives a JOIN listes l ON a.liste_id = l.id" +
-                "WHERE id = @ArchiveId";
-            Dictionary<string, object> resultat = new Dictionary<string, object>();
-
-            try {
-                connection.Open();
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ArchiveId", archive_id);
-                MySqlDataReader reader = command.ExecuteReader();
-                while(reader.Read()) {
-                    for(int i = 0; i < reader.FieldCount; i++) {
-                        resultat.Add(reader.GetName(i), reader.GetValue(i));
-                    }
-                }
-
-                reader.Close();
-            }
-            catch(Exception e) {
-                Console.WriteLine("Erreur, connexion à la base de données !\n" + e.Message);
-            }
-            finally {
-                connection.Close();
-            }
-
-            return resultat;
-        }
-
-        public List<Dictionary<string, object>> FindByListeId(int liste_id) {
-            MySqlConnection connection = Database.Db_connection();
-            string query = "SELECT a.id as id, a.titre as titre, a.description as description," +
-                "a.liste_id as liste_id, l.nom as nom_liste, a.created_at as created_at, a.updated_at as updated_at" +
-                "FROM archives a JOIN listes l ON a.liste_id = l.id" +
+            string query = "SELECT a.id as id, a.content as content, a.liste_id as liste_id, l.nom as nom_liste, " +
+                "a.admin_id as admin_id, ad.nom as nom_admin, a.created_at as created_at " +
+                "FROM archives a " +
+                "JOIN listes l ON a.liste_id = l.id " + 
+                "JOIN admin ad ON a.admin_id = ad.id " +
                 "WHERE liste_id = @ListeId";
-            List<Dictionary<string, object>> results = new List<Dictionary<string, object>>();
+            List<ArchiveModel> results = new List<ArchiveModel>();
 
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ListeId", liste_id);
+                command.Parameters.AddWithValue("@ListeId", listeId);
                 MySqlDataReader reader = command.ExecuteReader();
+
                 while(reader.Read()) {
-                    Dictionary<string, object> row = new Dictionary<string, object>();
-                    for(int i = 0; i < reader.FieldCount; i++) {
-                        row.Add(reader.GetName(i), reader.GetValue(i));
-                    }
-                    results.Add(row);
+                    var data = new ArchiveModel {
+                        id = reader.GetString("id"),
+                        content = reader.GetString("content"),
+                        listeId = reader.GetString("liste_id"),
+                        nomListe = reader.GetString("nom_liste"),
+                        adminId = reader.GetString("admin_id"),
+                        nomAdmin = reader.GetString("nom_admin"),
+                        createdAt = reader.GetDateTime("created_at")
+                    };
+                    results.Add(data);
                 }
                 reader.Close();
             }
@@ -116,29 +103,37 @@ namespace kavy {
             finally {
                 connection.Close();
             }
+
             return results;
         }
 
-        public List<Dictionary<string, object>> FindByClientId(int client_id) {
+        public List<ArchiveModel> FindByClientId(int clientId) {
             MySqlConnection connection = Database.Db_connection();
-            string query = "SELECT a.id as id, a.titre as titre, a.description as description," +
-                "a.liste_id as liste_id, l.nom as nom_liste, a.created_at as created_at, a.updated_at as updated_at" +
-                "FROM archives a" + 
-                "JOIN listes l ON a.liste_id = l.id" +
+           string query = "SELECT a.id as id, a.content as content, a.liste_id as liste_id, l.nom as nom_liste, " +
+                "a.admin_id as admin_id, ad.nom as nom_admin, a.created_at as created_at " +
+                "FROM archives a " +
+                "JOIN listes l ON a.liste_id = l.id " + 
+                "JOIN admin ad ON a.admin_id = ad.id " +
                 "WHERE liste_id IN (SELECT DISTINCT(liste_id) FROM abonnements WHERE client_id = @ClientId)";
-            List<Dictionary<string, object>> results = new List<Dictionary<string, object>>();
+            List<ArchiveModel> results = new List<ArchiveModel>();
 
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ClientId", client_id);
+                command.Parameters.AddWithValue("@ClientId", clientId);
                 MySqlDataReader reader = command.ExecuteReader();
+
                 while(reader.Read()) {
-                    Dictionary<string, object> row = new Dictionary<string, object>();
-                    for(int i = 0; i < reader.FieldCount; i++) {
-                        row.Add(reader.GetName(i), reader.GetValue(i));
-                    }
-                    results.Add(row);
+                    var data = new ArchiveModel {
+                        id = reader.GetString("id"),
+                        content = reader.GetString("content"),
+                        listeId = reader.GetString("liste_id"),
+                        nomListe = reader.GetString("nom_liste"),
+                        adminId = reader.GetString("admin_id"),
+                        nomAdmin = reader.GetString("nom_admin"),
+                        createdAt = reader.GetDateTime("created_at")
+                    };
+                    results.Add(data);
                 }
                 reader.Close();
             }
@@ -148,28 +143,37 @@ namespace kavy {
             finally {
                 connection.Close();
             }
+
             return results;
         }
 
-        public List<Dictionary<string, object>> Filtre(string search) {
+        public List<ArchiveModel> Filtre(string search) {
             MySqlConnection connection = Database.Db_connection();
-            string query = "SELECT a.id as id, a.titre as titre, a.description as description," +
-                "a.liste_id as liste_id, l.nom as nom_liste, a.created_at as created_at, a.updated_at as updated_at" +
-                "FROM archives a JOIN listes l ON a.liste_id = l.id" +
-                "WHERE titre LIKE %@Search% OR description LIKE %@Search%";
-            List<Dictionary<string, object>> results = new List<Dictionary<string, object>>();
+            string query = "SELECT a.id as id, a.content as content, a.liste_id as liste_id, l.nom as nom_liste, " +
+                "a.admin_id as admin_id, ad.nom as nom_admin, a.created_at as created_at " +
+                "FROM archives a " +
+                "JOIN listes l ON a.liste_id = l.id " + 
+                "JOIN admin ad ON a.admin_id = ad.id " +
+                "WHERE content LIKE %@Search%";
+            List<ArchiveModel> results = new List<ArchiveModel>();
 
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@Search", search);
                 MySqlDataReader reader = command.ExecuteReader();
+
                 while(reader.Read()) {
-                    Dictionary<string, object> row = new Dictionary<string, object>();
-                    for(int i = 0; i < reader.FieldCount; i++) {
-                        row.Add(reader.GetName(i), reader.GetValue(i));
-                    }
-                    results.Add(row);
+                    var data = new ArchiveModel {
+                        id = reader.GetString("id"),
+                        content = reader.GetString("content"),
+                        listeId = reader.GetString("liste_id"),
+                        nomListe = reader.GetString("nom_liste"),
+                        adminId = reader.GetString("admin_id"),
+                        nomAdmin = reader.GetString("nom_admin"),
+                        createdAt = reader.GetDateTime("created_at")
+                    };
+                    results.Add(data);
                 }
                 reader.Close();
             }
@@ -179,19 +183,19 @@ namespace kavy {
             finally {
                 connection.Close();
             }
+
             return results;
         }
 
-        public void Update(string titre, string description, int archive_id) {
+        public void Update(string content, int archiveId) {
             MySqlConnection connection = Database.Db_connection();
-            string query = "UPDATE archives SET titre = @Titre, description = @Description WHERE id = @ArchiveId";
+            string query = "UPDATE archives SET content = @Content WHERE id = @ArchiveId";
 
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Titre", titre);
-                command.Parameters.AddWithValue("@Description", description);
-                command.Parameters.AddWithValue("@ArchiveId", archive_id);
+                command.Parameters.AddWithValue("@Content", titre);
+                command.Parameters.AddWithValue("@ArchiveId", archiveId);
                 command.ExecuteNonQuery();
             }
             catch(Exception e) {
