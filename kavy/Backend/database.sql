@@ -6,6 +6,15 @@ USE KAVY;
 CREATE TABLE IF NOT EXISTS clients(
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(255),
+    password TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT NULL
+);
+
+CREATE TABLE IF NOT EXISTS admin(
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255),
+    password TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT NULL
 );
@@ -31,9 +40,10 @@ CREATE TABLE IF NOT EXISTS abonnements(
 
 CREATE TABLE IF NOT EXISTS archives(
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    titre VARCHAR(255),
-    description TEXT,
+    content TEXT,
     liste_id INT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT NULL,
     CONSTRAINT fk_liste_id_archives FOREIGN KEY(liste_id)
         REFERENCES listes(id)
 );

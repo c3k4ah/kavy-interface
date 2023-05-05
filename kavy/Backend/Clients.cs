@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using MySql.Data.MySqlClient;
-
 using kavy.Backend.Models;
-using System.Windows.Media;
 
 namespace kavy {
     class Clients {
@@ -12,7 +9,7 @@ namespace kavy {
 
         public void Create(string nom) {
             MySqlConnection connection = Database.Db_connection();
-            string query = "INSERT INTO clients(nom) VALUES(@Nom)";
+            string query = "INSERT INTO clients(nom, password) VALUES(@Nom, SHA2('kavy', 256))";
 
             try {
                 connection.Open();
@@ -27,83 +24,26 @@ namespace kavy {
                 connection.Close();
             }
         }
-        // public List<Dictionary<string, object>> Findall() {
-        //     MySqlConnection connection = Database.Db_connection();
-        //     string query = "SELECT * FROM clients";
-        //     List<Dictionary<string, object>> results = new List<Dictionary<string, object>>();
-            
-        //     try {
-        //         connection.Open();
-        //         MySqlCommand command = new MySqlCommand(query, connection);
-        //         MySqlDataReader reader = command.ExecuteReader();
-        //         while(reader.Read()) {
-        //             Dictionary<string, object> row = new Dictionary<string, object>();
-        //             for(int i = 0; i < reader.FieldCount; i++) {
-        //                 row.Add(reader.GetName(i), reader.GetValue(i));
-        //             }
-        //             results.Add(row);
-        //         }
-        //         reader.Close();
-        //     }
-        //     catch(Exception e) {
-        //         Console.WriteLine("Erreur, connexion à la base de données !\n" + e.Message);
-        //     }
-        //     finally {
-        //         connection.Close();
-        //     }
 
-        //     return results;
-        // }
-
-        public List<MessageModel> Findall() {
+        public List<ClientModel> Find(int clientId = 0) {
             MySqlConnection connection = Database.Db_connection();
-            string query = "SELECT * FROM clients";
-            List<MessageModel> messages = new List<MessageModel>();
-            try {
-                connection.Open();
-                MySqlCommand command = new MySqlCommand(query, connection);
-                MySqlDataReader reader = command.ExecuteReader();
-               
-                // Boucle pour parcourir les résultats de la requête et ajouter des objets Message à la liste
-                while (reader.Read())
-                {
-                    var message = new MessageModel
-                    {
-                        Nom = reader.GetString("nom"),
-                        CreatedAt = reader.GetDateTime("created_at"),
-                       
-                    };
-
-                    messages.Add(message);
-                }
-            
-            }
-            catch(Exception e) {
-                Console.WriteLine("Erreur, connexion à la base de données !\n" + e.Message);
-            }
-            finally {
-                connection.Close();
-            }
-            return messages;
-        }
-
-        public Dictionary<string, object> Findone(int client_id) {
-            MySqlConnection connection = Database.Db_connection();
-            string query = "SELECT * FROM clients WHERE id = @ClientId";
-            Dictionary<string, object> resultat = new Dictionary<string, object>();
+            string query = "SELECT nom, created_at FROM clients";
+            if(clientId > 0) query += " WHERE id = @clientId";
+            List<ClientModel> results = new List<ClientModel>();
 
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ClientId", client_id);
+                if(clientId > 0) command.Parameters.AddWithValue("@ClientId", clientId);
                 MySqlDataReader reader = command.ExecuteReader();
+
                 while(reader.Read()) {
-                    for(int i = 0; i < reader.FieldCount; i++) {
-                        resultat.Add(reader.GetName(i), reader.GetValue(i));
-                    }
+                    var data = new ClientModel {
+                        nom = reader.GetString("nom"),
+                        createdAt = reader.GetDateTime("created_at")
+                    };
+                    results.Add(data);
                 }
-
-                reader.Close();
             }
             catch(Exception e) {
                 Console.WriteLine("Erreur, connexion à la base de données !\n" + e.Message);
@@ -112,10 +52,10 @@ namespace kavy {
                 connection.Close();
             }
 
-            return resultat;
+            return results;
         }
 
-        public void Update(string nom, int client_id) {
+        public void Update(string nom, int clientId) {
             MySqlConnection connection = Database.Db_connection();
             string query = "UPDATE clients SET nom = @Nom WHERE id = @ClientId";
 
@@ -123,7 +63,7 @@ namespace kavy {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@Nom", nom);
-                command.Parameters.AddWithValue("@ClientId", client_id);
+                command.Parameters.AddWithValue("@ClientId", clientId);
                 command.ExecuteNonQuery();
             }
             catch(Exception e) {
@@ -134,14 +74,14 @@ namespace kavy {
             }
         }
 
-        public void Delete(int client_id) {
+        public void Delete(int clientId) {
             MySqlConnection connection = Database.Db_connection();
             string query = "DELETE FROM clients WHERE id = @ClientId";
 
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ClientId", client_id);
+                command.Parameters.AddWithValue("@ClientId", clientId);
                 command.ExecuteNonQuery();
             }
             catch(Exception e) {
