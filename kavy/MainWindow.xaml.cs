@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Data;
 using System.Collections.Generic;
+using System.Runtime.Caching;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -39,10 +39,7 @@ namespace kavy
         private string passwordClient {get; set;}
 
 
-        private void Message_txtChange(object sender, TextChangedEventArgs e)
-        {
-            nomClient = SendEventMessage.Text;
-        }
+
         private void NavigateToLoginPage(object sender, RoutedEventArgs e)
         {
             // Création de la nouvelle fenêtre
@@ -93,13 +90,20 @@ namespace kavy
         private int archiveId {get; set;}
         private string contentArchive {get; set;}
         private int listeIdArchive {get; set;}
-        private int adminIdArchive {get; set;}
+        private int adminIdArchive = cache.Get("adminId") as int;
         private string searchArchive {get; set;}
 
+
+        private void Message_txtChange(object sender, TextChangedEventArgs e)
+        {
+            nomClient = SendEventMessage.Text;
+            listeIdArchive = 1;
+        }
         public void CreateArchives(object sender, RoutedEventArgs e) {
             Archives archives = new Archives();
             archives.Create(this.contentArchive, this.listeIdArchive, this.adminIdArchive);
             this.FindByListeIdArchives();
+            SendEventMessage.Clear();
         }
 
         public void FindallArchives() {
@@ -113,13 +117,15 @@ namespace kavy
         }
 
         public void FindByListeIdArchives() {
+            listeIdArchive = 1;
             Archives archives = new Archives();
-            archives.FindByListeId(this.listeIdArchive);
+            messageList.ItemsSource = archives.FindByListeId(this.listeIdArchive);
         }
 
         public void FindByClientIdArchives() {
+
             Archives archives = new Archives();
-            archives.FindByClientId(this.clientId);
+             archives.FindByClientId(this.clientId);
         }
 
         public void FiltreArchives() {
@@ -188,7 +194,7 @@ namespace kavy
         }
 
         // ************** ADMIN *************
-        private int adminId {get; set;}
+        private int adminId = cache.Get("adminId") as int;
         private string nomAdmin {get; set;}
         private string passwordAdmin {get; set;}
 
@@ -224,30 +230,6 @@ namespace kavy
             Admin admin = new Admin();
             admin.Delete(this.adminId);
             this.FindallAdmin();
-        }
-
-        // **************** AUTH **************
-        private string nomAuth;
-        private string passwordAuth;
-
-        public void AuthAdmin() {
-            Auth auth = new Auth();
-            int response = auth.Admin(this.nomAuth, this.passwordAuth);
-            if(response > 0){
-                Console.WriteLine("Correct !");
-                this.adminId = response;
-            }
-            else Console.WriteLine("Incorrect !");
-        }
-
-        public void AuthClient() {
-            Auth auth = new Auth();
-            int response = auth.Client(this.nomAuth, this.passwordAuth);
-            if(response > 0){
-                Console.WriteLine("Correct !");
-                this.clientId = response;
-            }
-            else Console.WriteLine("Incorrect !");
         }
     }
 }

@@ -8,7 +8,7 @@ namespace kavy {
 
         public int Client(string nom, string password) {
             MySqlConnection connection = Database.Db_connection();
-            string query = "SELECT True FROM clients " + 
+            string query = "SELECT id FROM clients " + 
                 "WHERE nom = @Nom AND password = SHA2(@Password, 256)";
             int result = 0;
 
@@ -36,7 +36,7 @@ namespace kavy {
 
         public int Admin(string nom, string password) {
             MySqlConnection connection = Database.Db_connection();
-            string query = "SELECT True FROM admin " + 
+            string query = "SELECT id FROM admin " + 
                 "WHERE nom = @Nom AND password = SHA2(@Password, 256)";
             int result = 0;
 

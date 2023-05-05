@@ -40,7 +40,7 @@ namespace kavy {
 
                 while(reader.Read()) {
                     var data = new ClientModel {
-                        id = reader.GetString("id"),
+                        id = reader.GetInt16("id"),
                         nom = reader.GetString("nom"),
                         createdAt = reader.GetDateTime("created_at")
                     };

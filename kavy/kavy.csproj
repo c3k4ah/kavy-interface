@@ -39,6 +39,9 @@
   <!-- ================= MYSQL DATABASE PACKAGE =================-->
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.33" />
+    <PackageReference Include="System.Runtime.Caching">
+      <Version>7.0.0</Version>
+    </PackageReference>
   </ItemGroup>
   <!-- ========================================================= -->
   <ItemGroup>
@@ -104,7 +107,6 @@
     <Compile Include="Backend\clients.cs" />
     <Compile Include="Backend\database.cs" />
     <Compile Include="Backend\listes.cs" />
-    <Compile Include="Backend\Models\message_model.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
