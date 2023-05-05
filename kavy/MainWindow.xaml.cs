@@ -39,7 +39,18 @@ namespace kavy
         {
             nomClient = SendEventMessage.Text;
         }
-        
+        private void NavigateToLoginPage(object sender, RoutedEventArgs e)
+        {
+            // Création de la nouvelle fenêtre
+            var loginPage = new LoginWindow();
+
+            // Affichage de la nouvelle fenêtre
+            loginPage.Show();
+
+            // Fermeture de la fenêtre actuelle
+            this.Close();
+
+        }
         public void CreateClients(object sender, RoutedEventArgs e) {
             Clients clients = new Clients();
             clients.Create(this.nomClient);

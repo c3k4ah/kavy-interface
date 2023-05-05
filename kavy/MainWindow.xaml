@@ -156,7 +156,7 @@
 
                     <DockPanel Margin="0 12 5 0">
                         <TextBlock Text="Votre Profil" FontSize="12" Foreground="#F4EEE0" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <Button Style="{StaticResource MaterialDesignIconButton}" materialDesign:RippleAssist.Feedback="Red" Foreground="LightCoral" materialDesign:ButtonAssist.CornerRadius="6" Height="40" Width="40" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                        <Button Style="{StaticResource MaterialDesignIconButton}" materialDesign:RippleAssist.Feedback="Red" Foreground="LightCoral" materialDesign:ButtonAssist.CornerRadius="6" Height="40" Width="40" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="NavigateToLoginPage">
                             <materialDesign:PackIcon Kind="LogoutVariant"/>
                         </Button>
                     </DockPanel>
