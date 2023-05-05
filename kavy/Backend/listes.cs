@@ -5,7 +5,7 @@ namespace kavy {
         public Listes() {}
 
         public void create(string nom) {
-            MySqlConnection connection =  Database.db_connection();
+            MySqlConnection connection = Database.db_connection();
             string query = "INSERT INTO listes(nom) VALUES(@Nom)";
 
             try {
@@ -23,7 +23,7 @@ namespace kavy {
         }
 
         public List<Dictionary<string, object>> findall() {
-            MySqlConnection connection =  Database.db_connection();
+            MySqlConnection connection = Database.db_connection();
             string query = "SELECT * FROM listes";
             List<Dictionary<string, object>> results = new List<Dictionary<string, object>>();
             try {
@@ -50,7 +50,7 @@ namespace kavy {
         }
 
         public void update(int liste_id, string nom) {
-            MySqlConnection connection =  Database.db_connection();
+            MySqlConnection connection = Database.db_connection();
             string query = "UPDATE listes SET nom = @Nom WHERE id = @ListeId";
 
             try {
@@ -69,7 +69,7 @@ namespace kavy {
         }
 
         public void delete(int liste_id) {
-            MySqlConnection connection =  Database.db_connection();
+            MySqlConnection connection = Database.db_connection();
             string query = "DELETE FROM listes WHERE id = @ListeId";
 
             try {

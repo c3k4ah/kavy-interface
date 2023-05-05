@@ -5,7 +5,7 @@ namespace kavy {
         public Clients() {}
 
         public void create(string nom) {
-            MySqlConnection connection =  Database.db_connection();
+            MySqlConnection connection = Database.db_connection();
             string query = "INSERT INTO clients(nom) VALUES(@Nom)";
 
             try {
@@ -22,7 +22,7 @@ namespace kavy {
             }
         }
         public List<Dictionary<string, object>> findall() {
-            MySqlConnection connection =  Database.db_connection();
+            MySqlConnection connection = Database.db_connection();
             string query = "SELECT * FROM clients";
             List<Dictionary<string, object>> results = new List<Dictionary<string, object>>();
             
@@ -50,7 +50,7 @@ namespace kavy {
         }
 
         public Dictionary<string, object> findone(int client_id) {
-            MySqlConnection connection =  Database.db_connection();
+            MySqlConnection connection = Database.db_connection();
             string query = "SELECT * FROM clients WHERE id = @ClientId";
             Dictionary<string, object> resultat = new Dictionary<string, object>();
 
@@ -78,7 +78,7 @@ namespace kavy {
         }
 
         public void update(string nom, int client_id) {
-            MySqlConnection connection =  Database.db_connection();
+            MySqlConnection connection = Database.db_connection();
             string query = "UPDATE clients SET nom = @Nom WHERE id = @ClientId";
 
             try {
@@ -97,7 +97,7 @@ namespace kavy {
         }
 
         public void delete(int client_id) {
-            MySqlConnection connection =  Database.db_connection();
+            MySqlConnection connection = Database.db_connection();
             string query = "DELETE FROM clients WHERE id = @ClientId";
 
             try {

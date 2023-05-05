@@ -36,5 +36,83 @@ namespace kavy
                 textBlocks.Add(new TextBlock { Text = $"TextBlock {i + 1}" });
             }
         }
+
+        // ========================= BACKEND IMPLEMENTATIONS ========================
+        // ********** clients **********
+        private int clientId {get; set;}
+        private string nomClient {get; set;}
+
+        public void createClients(object sender, RoutedEventArgs e) {
+            Clients clients = new Clients();
+            clients.create(this.nomClient);
+        }
+
+        public List<Dictionary<string, object>> findallClients() {
+            Clients clients = new Clients();
+            return clients.findall();
+        }
+
+        public Dictionary<string, object> findoneClients() {
+            Clients clients = new Clients();
+            return clients.findone(this.clientId);
+        }
+
+        public void updateClients(object sender, RoutedEventArgs e) {
+            Clients clients = new Clients();
+            clients.update(this.nomClient, this.clientId);
+        }
+
+        public void deleteClients(object sender, RoutedEventArgs e) {
+            Clients clients = new Clients();
+            clients.delete(this.clientId);
+        }
+
+        // ********** archives **********
+        private int archiveId {get; set;}
+        private string titreArchive {get; set;}
+        private string descriptionArchive {get; set;}
+        private int listeIdArchive {get; set;}
+        private string searchArchive {get; set;}
+
+        public void createArchives(object sender, RoutedEventArgs e) {
+            Archives archives = new Archives();
+            archives.create(this.titreArchive, this.descriptionArchive, this.listeIdArchive);
+        }
+
+        public List<Dictionary<string, object>> findallArchives() {
+            Archives archives = new Archives();
+            return archives.findall();
+        }
+
+        public Dictionary<string, object> findoneArchives() {
+            Archives archives = new Archives();
+            return archives.findone(this.archiveId);
+        }
+
+        public List<Dictionary<string, object>> findByListeIdArchives() {
+            Archives archives = new Archives();
+            return archives.findByListeId(this.listeIdArchive);
+        }
+
+        public List<Dictionary<string, object>> findByClientIdArchives() {
+            Archives archives = new Archives();
+            return archives.findByClientId(this.clientId);
+        }
+
+        public List<Dictionary<string, object>> filtreArchives() {
+            Archives archives = new Archives();
+            return archives.filtre(this.searchArchive);
+        }
+
+        public void updateArchives(object sender, RoutedEventArgs e) {
+            Archives archives = new Archives();
+            archives.update(this.titreArchive, this.descriptionArchive, this.archiveId);
+        }
+
+        public void deleteArchives(object sender, RoutedEventArgs e) {
+            Archives archives = new Archives();
+            archives.delete(this.archiveId);
+        }
+        // ***********************************
     }
 }

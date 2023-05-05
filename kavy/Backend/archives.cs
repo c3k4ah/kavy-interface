@@ -5,7 +5,7 @@ namespace kavy {
         public Archives() {}
 
         public void create(string titre, string description, int liste_id) {
-            MySqlConnection connection =  Database.db_connection();
+            MySqlConnection connection = Database.db_connection();
             string query = "INSERT INTO archives(titre, description, liste_id) VALUES(@Titre, @Description, @ListeId)";
 
             try {
@@ -25,7 +25,7 @@ namespace kavy {
         }
 
         public List<Dictionary<string, object>> findall() {
-            MySqlConnection connection =  Database.db_connection();
+            MySqlConnection connection = Database.db_connection();
             string query = "SELECT a.id as id, a.titre as titre, a.description as description," +
                 "a.liste_id as liste_id, l.nom as nom_liste, a.created_at as created_at, a.updated_at as updated_at" +
                 "FROM archives a JOIN listes l ON a.liste_id = l.id";
@@ -55,7 +55,7 @@ namespace kavy {
         }
 
         public Dictionary<string, object> findone(int archive_id) {
-            MySqlConnection connection =  Database.db_connection();
+            MySqlConnection connection = Database.db_connection();
             string query = "SELECT a.id as id, a.titre as titre, a.description as description," +
                 "a.liste_id as liste_id, l.nom as nom_liste, a.created_at as created_at, a.updated_at as updated_at" +
                 "FROM archives a JOIN listes l ON a.liste_id = l.id" +
@@ -86,7 +86,7 @@ namespace kavy {
         }
 
         public List<Dictionary<string, object>> findByListeId(int liste_id) {
-            MySqlConnection connection =  Database.db_connection();
+            MySqlConnection connection = Database.db_connection();
             string query = "SELECT a.id as id, a.titre as titre, a.description as description," +
                 "a.liste_id as liste_id, l.nom as nom_liste, a.created_at as created_at, a.updated_at as updated_at" +
                 "FROM archives a JOIN listes l ON a.liste_id = l.id" +
@@ -116,8 +116,8 @@ namespace kavy {
             return results;
         }
 
-        public List<Dictionary<string, object>> findByClient(int client_id) {
-            MySqlConnection connection =  Database.db_connection();
+        public List<Dictionary<string, object>> findByClientId(int client_id) {
+            MySqlConnection connection = Database.db_connection();
             string query = "SELECT a.id as id, a.titre as titre, a.description as description," +
                 "a.liste_id as liste_id, l.nom as nom_liste, a.created_at as created_at, a.updated_at as updated_at" +
                 "FROM archives a" + 
@@ -148,8 +148,8 @@ namespace kavy {
             return results;
         }
 
-        public List<Dictionary<string, object>> filtreArchive(string search) {
-            MySqlConnection connection =  Database.db_connection();
+        public List<Dictionary<string, object>> filtre(string search) {
+            MySqlConnection connection = Database.db_connection();
             string query = "SELECT a.id as id, a.titre as titre, a.description as description," +
                 "a.liste_id as liste_id, l.nom as nom_liste, a.created_at as created_at, a.updated_at as updated_at" +
                 "FROM archives a JOIN listes l ON a.liste_id = l.id" +
@@ -180,7 +180,7 @@ namespace kavy {
         }
 
         public void update(string titre, string description, int archive_id) {
-            MySqlConnection connection =  Database.db_connection();
+            MySqlConnection connection = Database.db_connection();
             string query = "UPDATE archives SET titre = @Titre, description = @Description WHERE id = @ArchiveId";
 
             try {
@@ -200,7 +200,7 @@ namespace kavy {
         }
 
         public void delete(int archive_id) {
-            MySqlConnection connection =  Database.db_connection();
+            MySqlConnection connection = Database.db_connection();
             string query = "DELETE FROM archives WHERE id = @ArchiveId";
 
             try {
