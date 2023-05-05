@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
+using kavy.Backend.Models;
 
 namespace kavy {
     class Listes {
@@ -24,20 +25,24 @@ namespace kavy {
             }
         }
 
-        public List<Dictionary<string, object>> Findall() {
+        public List<ListeModel> Find(int listeId = 0) {
             MySqlConnection connection = Database.Db_connection();
-            string query = "SELECT * FROM listes";
-            List<Dictionary<string, object>> results = new List<Dictionary<string, object>>();
+            string query = "SELECT nom FROM listes";
+            if(listeId > 0) query += " WHERE id = @ListeId";
+            List<ListeModel> results = new List<ListeModel>();
+
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
+                if(listeId > 0) command.Parameters.AddWithValue("@ListeId", listeId);
                 MySqlDataReader reader = command.ExecuteReader();
+
                 while(reader.Read()) {
-                    Dictionary<string, object> row = new Dictionary<string, object>();
-                    for(int i = 0; i < reader.FieldCount; i++) {
-                        row.Add(reader.GetName(i), reader.GetValue(i));
-                    }
-                    results.Add(row);
+                    var data = new ListeModel {
+                        id = reader.GetInt16("id"),
+                        nom = reader.GetString("nom")
+                    };
+                    results.Add(data);
                 }
                 reader.Close();
             }
@@ -51,14 +56,14 @@ namespace kavy {
             return results;
         }
 
-        public void Update(int liste_id, string nom) {
+        public void Update(string nom, int listeId) {
             MySqlConnection connection = Database.Db_connection();
             string query = "UPDATE listes SET nom = @Nom WHERE id = @ListeId";
 
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ListeId", liste_id);
+                command.Parameters.AddWithValue("@ListeId", listeId);
                 command.Parameters.AddWithValue("@Nom", nom);
                 command.ExecuteNonQuery();
             }
@@ -70,14 +75,14 @@ namespace kavy {
             }
         }
 
-        public void Delete(int liste_id) {
+        public void Delete(int listeId) {
             MySqlConnection connection = Database.Db_connection();
             string query = "DELETE FROM listes WHERE id = @ListeId";
 
             try {
                 connection.Open();
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ListeId", liste_id);
+                command.Parameters.AddWithValue("@ListeId", listeId);
                 command.ExecuteNonQuery();
             }
             catch(Exception e) {

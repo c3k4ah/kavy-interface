@@ -71,6 +71,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Backend\Admin.cs" />
+    <Compile Include="Backend\Auth.cs" />
+    <Compile Include="Backend\Models\AbonnementModel.cs" />
+    <Compile Include="Backend\Models\AdminModel.cs" />
+    <Compile Include="Backend\Models\ArchiveModel.cs" />
+    <Compile Include="Backend\Models\ClientModel.cs" />
+    <Compile Include="Backend\Models\ListeModel.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
