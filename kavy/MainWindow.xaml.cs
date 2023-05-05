@@ -20,7 +20,7 @@ namespace kavy
             AddTextBlocks();
             textList.ItemsSource = textBlocks;
             FindallClients();
-            FindallArchives();
+            FindByListeIdArchives();
             FindallListes();
             FindallAbonnments();
         }
@@ -53,8 +53,8 @@ namespace kavy
 
             // Fermeture de la fenêtre actuelle
             this.Close();
-
         }
+        
         public void CreateClients(object sender, RoutedEventArgs e) {
             Clients clients = new Clients();
             clients.Create(this.nomClient);
@@ -93,13 +93,13 @@ namespace kavy
         private int archiveId {get; set;}
         private string contentArchive {get; set;}
         private int listeIdArchive {get; set;}
-        private int adminIdAdmin {get; set;}
+        private int adminIdArchive {get; set;}
         private string searchArchive {get; set;}
 
         public void CreateArchives(object sender, RoutedEventArgs e) {
             Archives archives = new Archives();
-            archives.Create(this.contentArchive, this.listeIdArchive, this.adminIdAdmin);
-            this.FindallArchives();
+            archives.Create(this.contentArchive, this.listeIdArchive, this.adminIdArchive);
+            this.FindByListeIdArchives();
         }
 
         public void FindallArchives() {
@@ -130,13 +130,13 @@ namespace kavy
         public void UpdateArchives(object sender, RoutedEventArgs e) {
             Archives archives = new Archives();
             archives.Update(this.contentArchive, this.archiveId);
-            this.FindallArchives();
+            this.FindByListeIdArchives();
         }
 
         public void DeleteArchives(object sender, RoutedEventArgs e) {
             Archives archives = new Archives();
             archives.Delete(this.archiveId);
-            this.FindallArchives();
+            this.FindByListeIdArchives();
         }
 
         // ************** LISTES **************

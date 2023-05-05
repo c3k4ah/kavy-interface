@@ -20,7 +20,7 @@ namespace kavy {
                 MySqlDataReader reader = command.ExecuteReader();
                 
                 while(reader.Read()) {
-                    result = reader.GetString("id");
+                    result = reader.GetInt16("id");
                 }
                 reader.Close();
             }
@@ -48,7 +48,7 @@ namespace kavy {
                 MySqlDataReader reader = command.ExecuteReader();
 
                 while(reader.Read()) {
-                    result = reader.GetString("id");
+                    result = reader.GetInt16("id");
                 }
                 reader.Close();
             }
