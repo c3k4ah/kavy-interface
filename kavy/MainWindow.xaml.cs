@@ -1,8 +1,10 @@
-﻿using System;
+﻿using kavy.Backend.Models;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Caching;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xml.XPath;
 
 namespace kavy
 {
@@ -13,14 +15,12 @@ namespace kavy
     public partial class MainWindow : Window
     {
 
-        private List<TextBlock> textBlocks = new List<TextBlock>();
-
+        
         public MainWindow()
         {
             InitializeComponent();
-            AddTextBlocks();
-            textList.ItemsSource = textBlocks;
-           
+            
+            DataContext = this;
             updateAllData();
 
         }
@@ -31,24 +31,30 @@ namespace kavy
             FindByListeIdArchives();
             FindallListes();
             FindallAbonnments();
+            FindallClients();
         }
-        private void UpdateArchive()
+        private void UpdateArchiveClick(object sender, RoutedEventArgs e)
         {
-
-        }
-        private void AddTextBlocks()
-        {
-            for (int i = 0; i < 5; i++)
+           
+             ListeModel selectedArchive = eventListe.SelectedItem as ListeModel;
+            Console.WriteLine("atooo ah!!");
+            if (selectedArchive != null )
             {
-                textBlocks.Add(new TextBlock { Text = $"TextBlock {i + 1}" });
+                this.archiveId =selectedArchive.id;
+                this.ArchiveName = selectedArchive.nom;
+                this.FindByListeIdArchives();
+                
             }
         }
+       
 
         // ========================= BACKEND IMPLEMENTATIONS ========================
         // ************* CLIENTS *************
         private int clientId {get; set;}
         private string nomClient {get; set;}
         private string passwordClient {get; set;}
+
+        public string ArchiveName { get; set; } = "Les messages";
 
 
 
@@ -73,7 +79,7 @@ namespace kavy
 
         public void FindallClients() {
             Clients clients = new Clients();
-            clients.Find();
+         userList.ItemsSource=   clients.Find();
         }
 
         public void FindoneClients() {
@@ -109,13 +115,17 @@ namespace kavy
 
         private void Message_txtChange(object sender, TextChangedEventArgs e)
         {
-            nomClient = SendEventMessage.Text;
-            listeIdArchive = 1;
+            this.contentArchive = SendEventMessage.Text;
+            
+
         }
         public void CreateArchives(object sender, RoutedEventArgs e) {
+
             Archives archives = new Archives();
-            archives.Create(this.contentArchive, this.listeIdArchive, this.adminIdArchive);
+            Console.WriteLine($"ary ato aona :{this.contentArchive}");
+            archives.Create(this.contentArchive, this.archiveId, 1);
             this.FindByListeIdArchives();
+
             SendEventMessage.Clear();
         }
 
@@ -123,18 +133,20 @@ namespace kavy
             Archives archives = new Archives();
             archives.Find();
         }
-
-        public void FindoneArchives() {
+ 
+        public string FindoneArchives() {
             Archives archives = new Archives();
-            archives.Find(this.archiveId);
+         string name= archives.Find(this.archiveId)[0].nomListe;
+            return name;
         }
 
         public void FindByListeIdArchives() {
-            listeIdArchive = 1;
+            
             MemoryCache cache = MemoryCache.Default;
             this.adminIdArchive = int.Parse(cache.Get("adminId") as string ?? "1");
             Archives archives = new Archives();
-            messageList.ItemsSource = archives.FindByListeId(this.listeIdArchive);
+            
+            messageList.ItemsSource = archives.FindByListeId(this.archiveId);
         }
 
         public void FindByClientIdArchives() {
