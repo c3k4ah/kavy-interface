@@ -16,9 +16,9 @@
 
 The following tools were used in this project:
 
-- [WPF](https://expo.io/)
-- [MySql](https://nodejs.org/en/)
-- [C#](https://pt-br.reactjs.org/)
+- [WPF](https://learn.microsoft.com/fr-fr/visualstudio/get-started/csharp/tutorial-wpf?view=vs-2022)
+- [MySql](https://www.mysql.com/fr/)
+- [C#](https://learn.microsoft.com/fr-fr/dotnet/csharp/)
 
 
 ## :white_check_mark: Desciption ##
@@ -27,7 +27,7 @@ ESTI , student project of an admin dasboard created with WPF C#.
 
 
 
-Made by <a href="https://github.com/c3k4ah" target="_blank">DOMINICK</a> and <a href="https://github.com/lahatra03" target="_blank">LAHATRA</a>
+Made by <a href="https://github.com/c3k4ah" target="_blank">DOMINICK</a> and <a href="https://github.com/lahatra3" target="_blank">LAHATRA</a>
 
 &#xa0;
 <br>
